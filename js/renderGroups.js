@@ -200,7 +200,7 @@ renderFrameSelector();
 function renderFrameSelector() {
   document.querySelector("#frame_selector").innerHTML = "";
   document.querySelector("#copy_selector").innerHTML = "";
-  let keys = Object.keys(action.frames);
+  let keys = Object.keys(action.frames).reverse();
   for (var i = 0; i < keys.length; i++) {
     let op = document.createElement("option");
     op.value = keys[i];
@@ -281,7 +281,9 @@ function renderAssetSelector() {
 function renderPositions() {
   let time = document.querySelector("#frame_selector").value;
   document.querySelector("#position_selector").innerHTML = "";
-  let positions = Object.keys(action.assets[document.querySelector("#add_asset").value]);
+  let assets = action.frames[time].assets;
+
+  let positions = Object.keys(action.assets[assets[parseInt(document.querySelector("#asset_selector").value)].id]);
   for (var i = 0; i < positions.length; i++) {
     let op = document.createElement("option");
     op.value = positions[i];

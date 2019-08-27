@@ -298,18 +298,22 @@ function renderCanvas(frameNumber) {
   }
 }
 
-var zoom = 1;
+var zoom = parseFloat(localStorage.zoom) || 1;
+document.querySelector("#canvas").style.transform = `scale(${zoom})`;
+document.querySelector("#amount").innerHTML = zoom.toFixed(1);
 
 function zoomIn() {
   zoom += 0.1;
   document.querySelector("#canvas").style.transform = `scale(${zoom})`;
   document.querySelector("#amount").innerHTML = zoom.toFixed(1);
+  localStorage.zoom = zoom;
 }
 
 function zoomOut() {
-  zoom -= 0.1;
+  zoom = Math.max(0.1, zoom-0.1);
   document.querySelector("#canvas").style.transform = `scale(${zoom})`;
   document.querySelector("#amount").innerHTML = zoom.toFixed(1);
+  localStorage.zoom = zoom;
 }
 
 function download_file() {
@@ -354,19 +358,25 @@ function openFile(event) {
   var reader = new FileReader();
   reader.onload = function(){
     var text = reader.result;
+    let name = document.querySelector(`input[type="file"]`).value;
     if (name.indexOf(".act.csp") > -1) {
       action = JSON.parse(text);
-      artboards = action.actboards;
+      artboards = action.artboards;
       localStorage.action = JSON.stringify(action);
-      canvas = action.artboards[0];
+      canvas = artboards[0];
       delete canvas.groups;
       delete canvas.groupName;
-      id = Object.keys(canvas)[0];
-      displayArtboard();
-      renderMenu();
-      renderABS();
-      let frames = Object.keys(action.frames);
-      renderFrame(parseInt(frames[i]));
+      if (Object.keys(canvas)[0]) {
+        console.log("init rendering");
+        id = Object.keys(canvas)[0];
+        displayArtboard();
+        renderMenu();
+        let frames = Object.keys(action.frames);
+        console.log(frames.length);
+        if (frames.length > 0) {
+          renderFrame(parseInt(frames.pop()));
+        }
+      }
     }
   };
   reader.readAsText(input.files[0]);
@@ -401,7 +411,7 @@ window.onload = () => {
     let frames = Object.keys(action.frames);
     console.log(frames.length);
     if (frames.length > 0) {
-      renderFrame(parseInt(frames[0]));
+      renderFrame(parseInt(frames.pop()));
     }
   }
 }
