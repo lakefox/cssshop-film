@@ -41,41 +41,6 @@ function renderFrame(frameNumber) {
   generateCanvasElements(frameNumber);
 }
 
-function renderFrameGroups(frameNumber) {
-  console.log("Running");
-  document.querySelector("#canvas").style.transform = `scale(1)`;
-  let groupData = {canvas: []}
-  let elements = document.querySelectorAll("div[data-group]");
-  // Make the groups;
-  for (var i = 0; i < elements.length; i++) {
-    let id = elements[i].dataset.group;
-    let container = document.querySelector(`div[data-container=${id}]`);
-    if (!container) {
-      container = document.createElement("div");
-      container.dataset.container = id;
-      document.querySelector("#canvas").appendChild(container);
-      groupData[id] = [];
-    }
-    groupData[id] = groupData[id] || [];
-    groupData[id].push(elements[i].dataset.name);
-    container = document.querySelector(`div[data-container=${id}]`);
-    container.appendChild(elements[i]);
-  }
-  let groupKeys = Object.keys(groupData);
-  groupKeys.shift();
-  for (var i = 0; i < groupKeys.length; i++) {
-    let actions = action.frames[frameNumber].assets[parseInt(groupKeys[i].split("-").pop())].actions;
-    let box = getBoundingBox(groupKeys[i], groupData[groupKeys[i]]);
-    if (box != false) {
-      let container = document.querySelector(`div[data-container=${groupKeys[i]}]`);
-      if (container.getAttribute("style") == null) {
-        container.style = `position: absolute; top: ${box.y+actions.y}px; left: ${box.x+actions.x}px; width: ${box.width}px; height: ${box.height}px; transform: rotate(${actions.rotate}deg) scale(${actions.scale}); z-index: ${actions.z};`;
-      }
-    }
-  }
-  document.querySelector("#canvas").style.transform = `scale(${zoom})`;
-}
-
 function generateCanvasElements(frameNumber) {
   let frame = action.frames[frameNumber];
   let assets = frame.assets;
@@ -84,13 +49,46 @@ function generateCanvasElements(frameNumber) {
   }
   for (var i = 0; i < assets.length; i++) {
     let asset = assets[i];
-      let assetData = action.assets[asset.id][asset.position];
-      canvas = action.assets[asset.id].None[0];
-      canvas.groups = assetData;
-      canvas.groupName = asset.id+"-"+asset.position+"-"+i;
-      renderCanvas(frameNumber);
+    let assetData = action.assets[asset.id][asset.position];
+    canvas = action.assets[asset.id].None[0];
+    canvas.groups = assetData;
+    canvas.groupName = asset.id+"-"+asset.position+"-"+i;
+    renderCanvas(frameNumber);
   }
 }
+
+function renderFrameGroups(frameNumber) {
+  document.querySelector("#canvas").style.transform = `scale(1)`;
+  let elements = document.querySelectorAll("div[data-group]");
+  // Make the groups;
+  for (var i = 0; i < elements.length; i++) {
+    let id = elements[i].dataset.group;
+    if (id != "canvas") {
+      let container = document.querySelector(`div[data-container=${id}]`);
+      if (container == null) {
+        container = document.createElement("div");
+        container.dataset.container = id;
+        document.querySelector("#canvas").append(container);
+      }
+      container.append(elements[i]);
+    }
+  }
+
+  let containers = document.querySelectorAll(`div[data-container]`);
+  for (var a = 0; a < containers.length; a++) {
+    let container = containers[a];
+    let raw_names = container.querySelectorAll(`div[data-group]`);
+    let names = [];
+    for (var b = 0; b < raw_names.length; b++) {
+      names.push(raw_names[b].dataset.name);
+    }
+    let box = getBoundingBox(canvas.groupName, names);
+    let styles = action.frames[frameNumber].assets[canvas.groupName.split("-")[2]].actions;
+    container.style = `position: absolute; width: ${parseInt(box.width)+"px"}; height: ${parseInt(box.height)+"px"}; left: ${styles.x}px; top: ${styles.y}px; z-index: ${styles.z}; transform: rotate(${styles.rotate}deg) scale(${styles.scale});`;
+  }
+  document.querySelector("#canvas").style.transform = `scale(${zoom})`;
+}
+
 
 function renderGroups(frameNumber) {
   document.querySelector("#canvas").style.transform = `scale(1)`;
@@ -100,7 +98,7 @@ function renderGroups(frameNumber) {
     if (group.elements) {
       if (group.elements.length > 0) {
         let div = document.createElement("div");
-        let box = getBoundingBox(Object.keys(groups)[a], group.elements);
+        let box = getBoundingBox(canvas.groupName, group.elements);
         if (box != false) {
           div.style = `position: absolute; top: ${box.y+(parseInt(group.y) || 0)}px; left: ${box.x+(parseInt(group.x) || 0)}px; width: ${box.width}px; height: ${box.height}px; transform: ${Object.values(group.styles || {}).join(" ")}; z-index: ${group.zindex}; display: ${group.display};`;
           for (var b = 0; b < group.elements.length; b++) {
@@ -109,31 +107,33 @@ function renderGroups(frameNumber) {
             if (child != null) {
               child.style.top = (parseInt(canvas[element].top || el_default.top)-box.y)+"px";
               child.style.left = (parseInt(canvas[element].left || el_default.left)-box.x)+"px";
+              child.removeAttribute("data-group");
               div.append(child);
             }
           }
-          div.dataset.group = Object.keys(groups)[a];
-          document.querySelector("#canvas").append(div);
+          div.dataset.name = Object.keys(groups)[a];
+          div.dataset.group = canvas.groupName;
+          document.querySelector(`#canvas`).append(div);
         }
       }
     }
   }
   document.querySelector("#canvas").style.transform = `scale(${zoom})`;
-  renderFrameGroups(frameNumber)
+  renderFrameGroups(frameNumber);
 }
 
 function getBoundingBox(group, names) {
   let ogX = window.scrollX;
   let ogY = window.scrollY;
   window.scrollTo(0,0);
-  let el = document.querySelector(`div[data-container="${group}"] > div[data-name="${names[0]}"]`);
+  let el = document.querySelector(`[data-name="${names[0]}"][data-group="${group}"]`);
   if (el != null) {
     let box = el.getBoundingClientRect();
     box = JSON.parse(JSON.stringify(box));
     box.width = box.x + box.width;
     box.height = box.y + box.height;
     for (var i = 1; i < names.length; i++) {
-      let el = document.querySelector(`div[data-container="${group}"] > div[data-name="${names[i]}"]`).getBoundingClientRect();
+      let el = document.querySelector(`[data-name="${names[i]}"][data-group="${group}"]`).getBoundingClientRect();
       box.x = Math.min(box.x, el.x);
       box.y = Math.min(box.y, el.y);
       box.width = Math.max(box.width, el.x + el.width);
@@ -274,8 +274,8 @@ function renderAssetSelector() {
     op.innerHTML = assets[i].id;
     document.querySelector("#asset_selector").appendChild(op);
   }
-  changeAsset();
   renderPositions();
+  changeAsset();
 }
 
 function renderPositions() {

@@ -104,9 +104,7 @@ function renameEl() {
 
 function changeElement() {
   id = document.querySelector("#element_selector").value;
-  console.log(id);
   displayArtboard();
-  console.log(id);
   renderMenu();
 }
 
@@ -250,7 +248,6 @@ function renderMenu() {
       }
     }
   }
-  console.log(id);
 }
 
 function renderCanvas(frameNumber) {
@@ -372,7 +369,6 @@ function openFile(event) {
         displayArtboard();
         renderMenu();
         let frames = Object.keys(action.frames);
-        console.log(frames.length);
         if (frames.length > 0) {
           renderFrame(parseInt(frames.pop()));
         }
