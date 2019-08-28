@@ -83,7 +83,7 @@ function renderFrameGroups(frameNumber) {
       names.push(raw_names[b].dataset.name);
     }
     let box = getBoundingBox(canvas.groupName, names);
-    let styles = action.frames[frameNumber].assets[canvas.groupName.split("-")[2]].actions;
+    let styles = action.frames[frameNumber].assets[container.dataset.container.split("-")[2]].actions;
     container.style = `position: absolute; width: ${parseInt(box.width)+"px"}; height: ${parseInt(box.height)+"px"}; left: ${styles.x}px; top: ${styles.y}px; z-index: ${styles.z}; transform: rotate(${styles.rotate}deg) scale(${styles.scale});`;
   }
   document.querySelector("#canvas").style.transform = `scale(${zoom})`;
