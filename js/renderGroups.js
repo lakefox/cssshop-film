@@ -202,14 +202,21 @@ function renderFrameSelector() {
   document.querySelector("#copy_selector").innerHTML = "";
   let keys = Object.keys(action.frames).reverse();
   for (var i = 0; i < keys.length; i++) {
-    let op = document.createElement("option");
-    op.value = keys[i];
-    op.innerHTML = keys[i];
-    document.querySelector("#frame_selector").appendChild(op);
-    let op2 = document.createElement("option");
-    op2.value = keys[i];
-    op2.innerHTML = keys[i];
-    document.querySelector("#copy_selector").appendChild(op2);
+    if (action.frames[keys[i]].og == false) {} else
+    {
+      let op = document.createElement("option");
+      op.value = keys[i];
+      op.innerHTML = keys[i];
+      document.querySelector("#frame_selector").appendChild(op);
+      let op2 = document.createElement("option");
+      op2.value = keys[i];
+      op2.innerHTML = keys[i];
+      document.querySelector("#copy_selector").appendChild(op2);
+      let op3 = document.createElement("option");
+      op3.value = keys[i];
+      op3.innerHTML = keys[i];
+      document.querySelector("#f1").appendChild(op3);
+    }
   }
 }
 
@@ -282,13 +289,14 @@ function renderPositions() {
   let time = document.querySelector("#frame_selector").value;
   document.querySelector("#position_selector").innerHTML = "";
   let assets = action.frames[time].assets;
-
-  let positions = Object.keys(action.assets[assets[parseInt(document.querySelector("#asset_selector").value)].id]);
-  for (var i = 0; i < positions.length; i++) {
-    let op = document.createElement("option");
-    op.value = positions[i];
-    op.innerHTML = positions[i];
-    document.querySelector("#position_selector").appendChild(op);
+  if (action.assets[assets[parseInt(document.querySelector("#asset_selector").value)]]) {
+    let positions = Object.keys(action.assets[assets[parseInt(document.querySelector("#asset_selector").value)].id]);
+    for (var i = 0; i < positions.length; i++) {
+      let op = document.createElement("option");
+      op.value = positions[i];
+      op.innerHTML = positions[i];
+      document.querySelector("#position_selector").appendChild(op);
+    }
   }
 }
 

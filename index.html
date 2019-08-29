@@ -79,6 +79,55 @@
         </div>
 
         <div class="option_head">
+          Generate Inbetween Frames
+        </div>
+
+        <div class="option">
+          <i class='bx bxs-hourglass-top icon_img'></i>
+          <div class="inputs">
+            <div class="input">
+              <div class="input_label">
+                Frame Rate
+              </div>
+              <input type="number" value="60" id="frameRate" step="100">
+            </div>
+          </div>
+        </div>
+
+        <div class="option">
+          <i class='bx bx-transfer icon_img'></i>
+          <div class="inputs">
+            <div class="input">
+              <div class="input_label">
+                To
+              </div>
+              <select id="f1" onchange="updateF2()"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="option">
+          <i class='bx bx-transfer icon_img' style="color: #18191b;"></i>
+          <div class="inputs">
+            <div class="input_label">
+              From
+            </div>
+            <div class="input">
+              <select id="f2"></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="option">
+          <i class='bx bx-transfer icon_img' style="color: #18191b;"></i>
+          <div class="inputs">
+            <div class="input">
+              <input type="button" value="Generate" onclick="generateIBN()">
+            </div>
+          </div>
+        </div>
+
+        <div class="option_head">
           Frame
         </div>
 
@@ -715,5 +764,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
     <script src="./js/index.js" charset="utf-8"></script>
     <script src="./js/renderGroups.js" charset="utf-8"></script>
+    <script src="./js/inbetween.js" charset="utf-8"></script>
   </body>
 </html>
