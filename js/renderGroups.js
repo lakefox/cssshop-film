@@ -200,6 +200,7 @@ renderFrameSelector();
 function renderFrameSelector() {
   document.querySelector("#frame_selector").innerHTML = "";
   document.querySelector("#copy_selector").innerHTML = "";
+  document.querySelector("#f1").innerHTML = "";
   let keys = Object.keys(action.frames).reverse();
   for (var i = 0; i < keys.length; i++) {
     if (action.frames[keys[i]].og == false) {} else
