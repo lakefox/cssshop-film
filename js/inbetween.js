@@ -8,7 +8,8 @@ function inbetween(f1, f2, frameRate) {
     action.frames[cFrame].og = true;
     action.frames[nFrame].og = true;
     // Make spots for the new frames
-    let numOfFrames = parseInt((nFrame-cFrame)/frameRate);
+    let numOfFrames = parseInt(Math.abs(nFrame-cFrame)/frameRate);
+    console.log(numOfFrames);
     for (var b = 0; b < numOfFrames; b++) {
       let frameIndex = cFrame+(frameRate*b);
       // Make sure that the frame isn't already made
@@ -35,6 +36,7 @@ function inbetween(f1, f2, frameRate) {
           thisAsset.actions.scale += scaleMulti*b
           thisAsset.actions.z += zMulti*b
           thisAsset.actions.rotate += rotateMulti*b
+          console.log("adj");
         }
       }
     }

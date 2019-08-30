@@ -289,7 +289,7 @@ function renderPositions() {
   let time = document.querySelector("#frame_selector").value;
   document.querySelector("#position_selector").innerHTML = "";
   let assets = action.frames[time].assets;
-  if (action.assets[assets[parseInt(document.querySelector("#asset_selector").value)]]) {
+  if (action.assets[assets[parseInt(document.querySelector("#asset_selector").value)].id]) {
     let positions = Object.keys(action.assets[assets[parseInt(document.querySelector("#asset_selector").value)].id]);
     for (var i = 0; i < positions.length; i++) {
       let op = document.createElement("option");
