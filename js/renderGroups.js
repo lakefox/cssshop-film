@@ -103,7 +103,7 @@ function renderGroups(frameNumber) {
           div.style = `position: absolute; top: ${box.y+(parseInt(group.y) || 0)}px; left: ${box.x+(parseInt(group.x) || 0)}px; width: ${box.width}px; height: ${box.height}px; transform: ${Object.values(group.styles || {}).join(" ")}; z-index: ${group.zindex}; display: ${group.display};`;
           for (var b = 0; b < group.elements.length; b++) {
             let element = group.elements[b];
-            let child = document.querySelector(`div[data-name="${element+"-"+Object.keys(groups)[a]}"]`);
+            let child = document.querySelector(`div[data-name="${element}"]`);
             if (child != null) {
               child.style.top = (parseInt(canvas[element].top || el_default.top)-box.y)+"px";
               child.style.left = (parseInt(canvas[element].left || el_default.left)-box.x)+"px";

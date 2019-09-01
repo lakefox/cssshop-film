@@ -263,7 +263,7 @@ function renderCanvas(frameNumber) {
 
       let div = document.createElement("div");
       div.style.position = "absolute";
-      div.dataset.name = el+"-"+name;
+      div.dataset.name = el;
       div.dataset.group = name;
       div.innerHTML = canvas[el].innerHTML || "";
 
