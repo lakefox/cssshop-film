@@ -411,3 +411,8 @@ window.onload = () => {
     }
   }
 }
+
+function delete() {
+  localStorage.action = {};
+  window.reload();
+}
