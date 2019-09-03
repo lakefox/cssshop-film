@@ -412,7 +412,7 @@ window.onload = () => {
   }
 }
 
-function delete() {
-  localStorage.action = {};
-  window.reload();
+function deleteET() {
+  localStorage.removeItem("action");
+  window.location.reload();
 }
