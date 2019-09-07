@@ -133,7 +133,6 @@ function getBoundingBox(group, names) {
     box.width = box.x + box.width;
     box.height = box.y + box.height;
     for (var i = 1; i < names.length; i++) {
-      console.log(group,names[i]);
       let el = document.querySelector(`[data-group="${group}"][data-name="${names[i]}"]`);
       if (el != null) {
         el = el.getBoundingClientRect();
