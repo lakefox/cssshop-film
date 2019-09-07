@@ -321,6 +321,7 @@ function changeAsset() {
     document.querySelector("#group_rotate").value = asset.actions.rotate;
     document.querySelector("#group_scale").value = asset.actions.scale;
   }
+  renderPositions();
 }
 
 function updateAsset() {
