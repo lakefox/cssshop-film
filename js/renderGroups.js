@@ -126,14 +126,14 @@ function getBoundingBox(group, names) {
   let ogX = window.scrollX;
   let ogY = window.scrollY;
   window.scrollTo(0,0);
-  let el = document.querySelector(`[data-name="${names[0]}"][data-group="${group}"]`);
+  let el = document.querySelector(`[data-group="${group}"][data-name="${names[0]}"]`);
   if (el != null) {
     let box = el.getBoundingClientRect();
     box = JSON.parse(JSON.stringify(box));
     box.width = box.x + box.width;
     box.height = box.y + box.height;
     for (var i = 1; i < names.length; i++) {
-      let el = document.querySelector(`[data-name="${names[i]}"][data-group="${group}"]`).getBoundingClientRect();
+      let el = document.querySelector(`[data-group="${group}"][data-name="${names[i]}"]`).getBoundingClientRect();
       box.x = Math.min(box.x, el.x);
       box.y = Math.min(box.y, el.y);
       box.width = Math.max(box.width, el.x + el.width);
