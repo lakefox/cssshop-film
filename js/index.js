@@ -424,10 +424,11 @@ function deleteET() {
   window.location.reload();
 }
 
-function paste() {
+function paste2() {
   let artboard = parseInt(document.querySelector("#artboard_select").value);
   let es = parseInt(document.querySelector("#element_selector").value) || document.querySelector("#element_selector").value;
-  let cs = parseInt(document.querySelector("#copy_selector").value) || document.querySelector("#copy_selector").value;
+  let cs = parseInt(document.querySelector("#copy_selector2").value) || document.querySelector("#copy_selector2").value;
   action.artboards[artboard][es] = JSON.parse(JSON.stringify(action.artboards[artboard][cs]));
-  renderCanvas();
+  displayArtboard();
+  renderMenu();
 }
