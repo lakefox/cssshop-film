@@ -214,6 +214,7 @@ function updateHTML(e) {
 
 function renderMenu() {
   document.querySelector("#element_selector").innerHTML = "";
+  document.querySelector("#copy_selector2").innerHTML = "";
   for (var el in canvas) {
     if (canvas.hasOwnProperty(el) && el != "groups" && el != "groupName") {
       let op = document.createElement("option");
@@ -222,6 +223,12 @@ function renderMenu() {
       document.querySelector("#element_selector").appendChild(op);
       if (el == id) {
         document.querySelector("#element_selector").selectedIndex = document.querySelector("#element_selector").options.length-1;
+      } else {
+        console.log("21");
+        let op2 = document.createElement("option");
+        op2.value = el;
+        op2.innerHTML = el;
+        document.querySelector("#copy_selector2").appendChild(op2);
       }
     }
   }
@@ -415,4 +422,12 @@ window.onload = () => {
 function deleteET() {
   localStorage.removeItem("action");
   window.location.reload();
+}
+
+function paste() {
+  let artboard = parseInt(document.querySelector("#artboard_select").value);
+  let es = parseInt(document.querySelector("#element_selector").value) || document.querySelector("#element_selector").value;
+  let cs = parseInt(document.querySelector("#copy_selector").value) || document.querySelector("#copy_selector").value;
+  action.artboards[artboard][es] = JSON.parse(JSON.stringify(action.artboards[artboard][cs]));
+  renderCanvas();
 }
