@@ -30,10 +30,12 @@ function inbetween(f1, f2, frameRate) {
           let zMulti = (nFrameAct.z-cFrameAct.z)/numOfFrames;
           let rotateMulti = (nFrameAct.rotate-cFrameAct.rotate)/numOfFrames;
           let scaleMulti = (nFrameAct.scale-cFrameAct.scale)/numOfFrames;
+          let opacityMulti = (nFrameAct.opacity-cFrameAct.opacity)/numOfFrames;
 
           thisAsset.actions.x += xMulti*b;
           thisAsset.actions.y += yMulti*b;
           thisAsset.actions.scale += scaleMulti*b
+          thisAsset.actions.opacity += opacityMulti*b
           thisAsset.actions.z += zMulti*b
           thisAsset.actions.rotate += rotateMulti*b
           console.log("adj");

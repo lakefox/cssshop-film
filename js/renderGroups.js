@@ -268,7 +268,8 @@ function addAsset() {
       y: 0,
       z: 0,
       rotate: 0,
-      scale: 1
+      scale: 1,
+      opacity: 1
     }
   });
   renderAssetSelector();
@@ -336,6 +337,7 @@ function updateAsset() {
   asset.actions.z = parseInt(document.querySelector("#group_z").value);
   asset.actions.rotate = parseInt(document.querySelector("#group_rotate").value);
   asset.actions.scale = parseFloat(document.querySelector("#group_scale").value);
+  asset.actions.opacity = parseFloat(document.querySelector("#group_opacity").value);
   asset.position = document.querySelector("#position_selector").value;
   saveFrame();
 }
