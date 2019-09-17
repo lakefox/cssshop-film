@@ -84,7 +84,7 @@ function renderFrameGroups(frameNumber) {
     }
     let box = getBoundingBox(canvas.groupName, names);
     let styles = action.frames[frameNumber].assets[container.dataset.container.split("-")[2]].actions;
-    container.style = `position: absolute; width: ${parseInt(box.width)+"px"}; height: ${parseInt(box.height)+"px"}; left: ${styles.x}px; top: ${styles.y}px; z-index: ${styles.z}; transform: rotate(${styles.rotate}deg) scale(${styles.scale});`;
+    container.style = `position: absolute; width: ${parseInt(box.width)+"px"}; height: ${parseInt(box.height)+"px"}; left: ${styles.x}px; top: ${styles.y}px; z-index: ${styles.z}; opacity: ${styles.opacity}; transform: rotate(${styles.rotate}deg) scale(${styles.scale});`;
   }
   document.querySelector("#canvas").style.transform = `scale(${zoom})`;
 }
@@ -324,6 +324,7 @@ function changeAsset() {
     document.querySelector("#group_z").value = asset.actions.z;
     document.querySelector("#group_rotate").value = asset.actions.rotate;
     document.querySelector("#group_scale").value = asset.actions.scale;
+    document.querySelector("#group_opacity").value = asset.actions.opacity;
   }
   renderPositions();
 }
