@@ -346,7 +346,7 @@ function updateAsset() {
 function saveFrame() {
   let assets = Object.keys(action.assets);
   for (var a = 0; a < assets.length; a++) {
-    let artboards = action.assets[assets[a]].None;
+    let artboards = action.assets[assets[a]].None.filter(Boolean);
     for (var b = 0; b < artboards.length; b++) {
       delete artboards[b].groupName;
       delete artboards[b].groups;
