@@ -326,16 +326,11 @@ function download_file() {
   let action = JSON.parse(localStorage.action);
   action.artboards = artboards;
   let text = JSON.stringify(action);
-  var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-  element.setAttribute('download', filename+".act.csp");
 
-  element.style.display = 'none';
-  document.body.appendChild(element);
-
-  element.click();
-
-  document.body.removeChild(element);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL( new Blob([text], { type:`text/.act.csp` }));
+  a.download = filename+".act.csp";
+  a.click();
 }
 
 function loadFont() {

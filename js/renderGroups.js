@@ -10,7 +10,7 @@ document.querySelector("#record").addEventListener("click", () => {
   saveFrame();
 });
 
-function play(startNum) {
+function play() {
   let frames = Object.keys(action.frames);
   for (var i = 0; i < frames.length; i++) {
     let frame = parseInt(frames[i]);
