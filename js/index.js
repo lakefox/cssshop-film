@@ -427,3 +427,64 @@ function paste2() {
   displayArtboard();
   renderMenu();
 }
+
+function download_page() {
+  let filename = Math.floor(Math.random()*1000000);
+
+  let action = JSON.parse(localStorage.action);
+  action.artboards = artboards;
+  let text = JSON.stringify(action);
+
+  let html = `
+  <!DOCTYPE html>
+  <html lang="en" dir="ltr">
+    <head>
+      <meta charset="utf-8">
+      <title>CSS Shop/Record</title>
+      <link rel="stylesheet" href="./css/master.css">
+      <link href="https://fonts.googleapis.com/css?family=Mukta|Roboto+Mono" rel="stylesheet">
+      <link href='https://unpkg.com/boxicons@latest/css/boxicons.min.css' rel='stylesheet'>
+      <link rel="icon" type="image/png" sizes="32x32" href="https://lakefox.net/assets/logo.png">
+    </head>
+    <body>
+
+      <div id="canvas">
+
+      </div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+      <script src="https://record.lakefox.net/js/index.js" charset="utf-8"></script>
+      <script src="https://record.lakefox.net/js/renderGroups.js" charset="utf-8"></script>
+      <script type="text/javascript">
+      var text = \`
+          ${text}
+      \`;
+          action = JSON.parse(text);
+          artboards = action.artboards;
+          localStorage.action = JSON.stringify(action);
+          canvas = artboards[0];
+          delete canvas.groups;
+          delete canvas.groupName;
+          if (Object.keys(canvas)[0]) {
+            console.log("init rendering");
+            id = Object.keys(canvas)[0];
+            let frames = Object.keys(action.frames);
+            if (frames.length > 0) {
+              renderFrame(parseInt(frames.pop()));
+            }
+          }
+          document.addEventListener("keydown", (e) => {
+            if (e.key == "Enter") {
+              play();
+            }
+          });
+      </script>
+    </body>
+  </html>
+  `;
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL( new Blob([html], { type:`text/html` }));
+  a.download = filename+".html";
+  a.click();
+}
