@@ -441,7 +441,7 @@ function download_page() {
     <head>
       <meta charset="utf-8">
       <title>CSS Shop/Record</title>
-      <link rel="stylesheet" href="./css/master.css">
+      <link rel="stylesheet" href="https://record.lakefox.net/css/master.css">
       <link href="https://fonts.googleapis.com/css?family=Mukta|Roboto+Mono" rel="stylesheet">
       <link href='https://unpkg.com/boxicons@latest/css/boxicons.min.css' rel='stylesheet'>
       <link rel="icon" type="image/png" sizes="32x32" href="https://lakefox.net/assets/logo.png">
@@ -461,7 +461,6 @@ function download_page() {
       \`;
           action = JSON.parse(text);
           artboards = action.artboards;
-          localStorage.action = JSON.stringify(action);
           canvas = artboards[0];
           delete canvas.groups;
           delete canvas.groupName;
